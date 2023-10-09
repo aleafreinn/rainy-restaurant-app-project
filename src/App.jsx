@@ -5,6 +5,7 @@ import { ItemsContextProvider, useItems } from "./store/ItemsContext";
 import Admin from "./pages/Admin";
 import Users from "./pages/Users";
 import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 function AdministrationMode() {
   const { switchPage, togglePage } = useItems();
@@ -12,6 +13,7 @@ function AdministrationMode() {
 
   return (
     <>
+      <Header />
       {switchPage ? <Admin /> : <Users />}
       <button onClick={togglePage}>click me to toggle user mode</button>
       <Footer />
