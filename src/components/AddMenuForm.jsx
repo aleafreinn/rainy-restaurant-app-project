@@ -4,11 +4,11 @@ import { v4 as uuid } from "uuid";
 
 const AddMenuForm = () => {
   const { addNewItem, itemsData } = useItems();
-  console.log(itemsData);
 
   const initItemForm = {
     id: "",
     name: "",
+    desc: "",
     price: "",
   };
   const [newItem, setNewItem] = useState(initItemForm);
@@ -22,6 +22,7 @@ const AddMenuForm = () => {
     if (newItem.id !== "") {
       addNewItem(newItem);
       console.log("added!");
+      console.log(itemsData);
       setNewItem(initItemForm);
     }
   }, [newItem.id]);
@@ -33,6 +34,12 @@ const AddMenuForm = () => {
           type="text"
           value={newItem.name}
           onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+        />
+        <label>enter description: </label>
+        <input
+          type="text"
+          value={newItem.desc}
+          onChange={(e) => setNewItem({ ...newItem, desc: e.target.value })}
         />
         <label>enter price: </label>
         <input
