@@ -1,4 +1,5 @@
 import { useItems } from "../store/ItemsContext";
+import FoodItem from "./FoodItem";
 
 const FoodList = () => {
   const { itemsData } = useItems();
@@ -6,16 +7,22 @@ const FoodList = () => {
   const foodItems = itemsData.map((item) => {
     return (
       <>
-        <li>
+        <FoodItem
+          key={item.id}
+          name={item.name}
+          desc={item.desc}
+          price={item.price}
+        />
+        {/* <li>
           {item.name} - {item.desc} - RM{item.price}
-        </li>
+        </li> */}
       </>
     );
   });
   return (
     <>
       <div>list here</div>
-      <ul>{foodItems}</ul>
+      {foodItems}
     </>
   );
 };

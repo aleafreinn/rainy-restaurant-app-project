@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
+import { useItems } from "../store/ItemsContext";
 
 const StickyDiv = styled.footer`
   position: absolute;
@@ -9,9 +11,15 @@ const StickyDiv = styled.footer`
 `;
 
 const Footer = () => {
+  const { togglePage, switchPage } = useItems();
   return (
     <>
-      <StickyDiv>This is the footer</StickyDiv>
+      <StickyDiv>
+        <p>This is the footer</p>
+        <Link to={switchPage ? "/" : "/admin"}>
+          <button onClick={togglePage}>click me to toggle user mode</button>
+        </Link>
+      </StickyDiv>
     </>
   );
 };

@@ -44,7 +44,7 @@ const AddMenuForm = () => {
         <label>enter price: </label>
         <input
           type="number"
-          value={newItem.price}
+          value={parseInt(newItem.price)}
           onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
         />
         <button type="submit">add item to menu</button>
