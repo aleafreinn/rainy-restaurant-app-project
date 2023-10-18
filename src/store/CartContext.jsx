@@ -1,14 +1,40 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 const CartContext = createContext();
 
 export const CartContextProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const LS_CARTITEMS_KEY = "cartItems";
+  const [cartItems, setCartItems] = useState(
+    JSON.parse(localStorage.getItem(LS_CARTITEMS_KEY)) ?? []
+  );
   const [totalOrderAmt, setTotalOrderAmt] = useState(0);
+
+  // add item to cart function
   const addItem = (item) => {
-    setTotalOrderAmt((currAmt) => currAmt + 1);
-    setCartItems([...cartItems, item]);
+    const itemIsExist = cartItems.filter((cartItem) => {
+      return cartItem.id === item.id;
+    });
+    if (itemIsExist[0] !== undefined) {
+      itemIsExist[0].qty++;
+      const newCartItems = cartItems.filter((cartItem) => {
+        return cartItem.id !== item.id;
+      });
+      setCartItems([...newCartItems, itemIsExist[0]]);
+    } else setCartItems([...cartItems, { ...item, qty: 1 }]);
+    // console.log(cartItems);
   };
+
+  // calculate number of item in cart function
+  function totalOrderAmtHandler() {
+    let totalOrder = 0;
+    for (let foodItemNum = 0; foodItemNum < cartItems.length; foodItemNum++) {
+      totalOrder += cartItems[foodItemNum].qty;
+    }
+    setTotalOrderAmt(totalOrder);
+  }
+
+  // remove item in cart function
   const removeItem = (item) => {
     return item;
   };
@@ -18,7 +44,13 @@ export const CartContextProvider = ({ children }) => {
     totalOrderAmt,
     addItem,
     removeItem,
+    totalOrderAmtHandler,
   };
+
+  useEffect(() => {
+    localStorage.setItem(LS_CARTITEMS_KEY, JSON.stringify(cartItems));
+  }, [cartItems]);
+
   return (
     <>
       <CartContext.Provider value={value}>{children}</CartContext.Provider>
@@ -28,4 +60,8 @@ export const CartContextProvider = ({ children }) => {
 
 export const useCart = () => {
   return useContext(CartContext);
+};
+
+CartContextProvider.propTypes = {
+  children: PropTypes.any,
 };

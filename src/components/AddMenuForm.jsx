@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 
 const AddMenuForm = () => {
-  const { addNewItem, itemsData } = useItems();
+  const { addNewItem } = useItems();
 
   const initItemForm = {
     id: "",
@@ -15,14 +15,15 @@ const AddMenuForm = () => {
 
   function submitHandler(e) {
     e.preventDefault();
-    setNewItem({ ...newItem, id: uuid() });
+    setNewItem({ ...newItem, price: parseInt(newItem.price), id: uuid() });
   }
 
   useEffect(() => {
     if (newItem.id !== "") {
       addNewItem(newItem);
       console.log("added!");
-      console.log(itemsData);
+      console.log(newItem);
+      console.log(parseInt(newItem.price));
       setNewItem(initItemForm);
     }
   }, [newItem.id]);
@@ -44,7 +45,7 @@ const AddMenuForm = () => {
         <label>enter price: </label>
         <input
           type="number"
-          value={parseInt(newItem.price)}
+          value={parseInt(newItem.price) < 0 ? 0 : newItem.price}
           onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
         />
         <button type="submit">add item to menu</button>

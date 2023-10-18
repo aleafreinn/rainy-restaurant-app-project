@@ -1,12 +1,16 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 const ItemsContext = createContext({
   someVariable: null,
 });
 
 export function ItemsContextProvider({ children }) {
+  const LS_ITEMSDATA_KEY = "itemsData";
   const [switchPage, setSwitchPage] = useState(false);
-  const [itemsData, setItemsData] = useState([]);
+  const [itemsData, setItemsData] = useState(
+    JSON.parse(localStorage.getItem(LS_ITEMSDATA_KEY)) ?? []
+  );
 
   const addNewItem = (item) => {
     setItemsData([...itemsData, item]);
@@ -30,6 +34,10 @@ export function ItemsContextProvider({ children }) {
     togglePage,
   };
 
+  useEffect(() => {
+    localStorage.setItem(LS_ITEMSDATA_KEY, JSON.stringify(itemsData));
+  }, [itemsData]);
+
   return (
     <ItemsContext.Provider value={value}>{children}</ItemsContext.Provider>
   );
@@ -37,3 +45,7 @@ export function ItemsContextProvider({ children }) {
 export function useItems() {
   return useContext(ItemsContext);
 }
+
+ItemsContextProvider.propTypes = {
+  children: PropTypes.any,
+};

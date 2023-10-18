@@ -1,13 +1,15 @@
 // import { useState } from "react";
 import "./App.css";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ItemsContextProvider, useItems } from "./store/ItemsContext";
+import { ItemsContextProvider } from "./store/ItemsContext";
+import { CartContextProvider } from "./store/CartContext";
 import Admin from "./pages/Admin";
 import Users from "./pages/Users";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import FoodList from "./components/FoodList";
+import CartButton from "./components/CartButton";
 
 function AdministrationMode() {
   // const { switchPage } = useItems();
@@ -25,18 +27,19 @@ function AdministrationMode() {
 }
 
 function App() {
-  useEffect(() => {});
-
   return (
     <>
       <ItemsContextProvider>
-        <Router>
-          <Header />
-          <AdministrationMode />
+        <CartContextProvider>
+          <Router>
+            <Header />
+            <CartButton />
+            <AdministrationMode />
 
-          <FoodList />
-          <Footer />
-        </Router>
+            <FoodList />
+            <Footer />
+          </Router>
+        </CartContextProvider>
       </ItemsContextProvider>
     </>
   );
