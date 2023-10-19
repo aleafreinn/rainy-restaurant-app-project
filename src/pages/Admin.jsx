@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import AddMenuForm from "../components/AddMenuForm";
 
 const Admin = () => {
@@ -7,9 +8,13 @@ const Admin = () => {
     <>
       <div>hello admin</div>
       <button onClick={() => setShowForm(!showForm)}>
-        {showForm ? "close" : "Add menu item"}
+        {showForm ? "Adding menu..." : "Add menu item"}
       </button>
-      {showForm && <AddMenuForm />}
+      {showForm &&
+        createPortal(
+          <AddMenuForm onClose={() => setShowForm(false)} />,
+          document.body
+        )}
     </>
   );
 };

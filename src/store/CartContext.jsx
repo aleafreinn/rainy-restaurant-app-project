@@ -9,6 +9,7 @@ export const CartContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem(LS_CARTITEMS_KEY)) ?? []
   );
   const [totalOrderAmt, setTotalOrderAmt] = useState(0);
+  // const [totalPrice, setTotalPrice] = useState(0)
 
   // add item to cart function
   const addItem = (item) => {
@@ -39,12 +40,25 @@ export const CartContextProvider = ({ children }) => {
     return item;
   };
 
+  const cartItemVerify = (itemsList) => {
+    // itemsList to be passed only as "itemsData" from ItemsCtx later
+    let itemsIDList = [];
+    for (let item = 0; item < itemsList.length; item++) {
+      itemsIDList.push(itemsList[item].id);
+    }
+    const verifiedCartItems = cartItems.filter((item) => {
+      return itemsIDList.indexOf(item.id) !== -1;
+    });
+    setCartItems(verifiedCartItems);
+  };
+
   const value = {
     cartItems,
     totalOrderAmt,
     addItem,
     removeItem,
     totalOrderAmtHandler,
+    cartItemVerify,
   };
 
   useEffect(() => {

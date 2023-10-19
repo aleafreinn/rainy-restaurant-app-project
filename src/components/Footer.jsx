@@ -3,11 +3,15 @@ import { Link } from "react-router-dom";
 import { useItems } from "../store/ItemsContext";
 
 const StickyDiv = styled.footer`
-  position: absolute;
+  position: sticky;
   bottom: 0;
-  left: 0;
+  background-color: #000000cc;
   text-align: center;
   width: 100%;
+  padding: 1rem 0rem;
+  & > p {
+    margin: 0;
+  }
 `;
 
 const Footer = () => {

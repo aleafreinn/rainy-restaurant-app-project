@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
+import { useCart } from "../store/CartContext";
 
 const CartContainer = styled.main`
   background-color: #00000044;
@@ -24,11 +25,26 @@ const CartBox = styled.div`
 `;
 
 const CartSummary = ({ onClose }) => {
+  const { cartItems } = useCart();
+
+  const cartItemsList = cartItems.map((item) => {
+    return (
+      <>
+        <li>
+          {item.name} - {item.qty} ; Total: RM{item.qty * item.price}
+          <br />
+          <button>+</button>
+          <button>-</button>
+        </li>
+      </>
+    );
+  });
   return (
     <>
       <CartContainer>
         <CartBox>
           this is the summary for cart
+          <ul>{cartItemsList}</ul>
           <button onClick={onClose}>close</button>
         </CartBox>
       </CartContainer>

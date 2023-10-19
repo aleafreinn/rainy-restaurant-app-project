@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import FoodList from "./components/FoodList";
 import CartButton from "./components/CartButton";
+import styled from "@emotion/styled";
 
 function AdministrationMode() {
   // const { switchPage } = useItems();
@@ -25,6 +26,12 @@ function AdministrationMode() {
     </>
   );
 }
+
+const PositionedContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 
 function App() {
   return (

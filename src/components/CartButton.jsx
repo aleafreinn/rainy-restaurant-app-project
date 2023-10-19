@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import CartSummary from "./CartSummary";
 import { useCart } from "../store/CartContext";
+import { useItems } from "../store/ItemsContext";
 
 const CustomButton = styled(Button)`
   color: white;
@@ -22,12 +23,18 @@ const CartCount = styled(Paper)`
 `;
 
 const CartButton = () => {
-  const { totalOrderAmt, totalOrderAmtHandler, cartItems } = useCart();
+  const { totalOrderAmt, totalOrderAmtHandler, cartItems, cartItemVerify } =
+    useCart();
+  const { itemsData } = useItems();
   const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
     totalOrderAmtHandler();
   }, [cartItems]);
+
+  useEffect(() => {
+    cartItemVerify(itemsData);
+  }, [itemsData]);
   return (
     <>
       <CustomButton onClick={() => setShowCart(!showCart)}>

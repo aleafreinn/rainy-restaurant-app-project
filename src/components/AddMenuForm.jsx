@@ -1,8 +1,32 @@
 import { useItems } from "../store/ItemsContext";
 import { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
+import styled from "@emotion/styled";
+import PropTypes from "prop-types";
 
-const AddMenuForm = () => {
+const FormParent = styled.main`
+  background-color: #00000044;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const FormContainer = styled.form`
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 1rem 2rem;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const AddMenuForm = ({ onClose }) => {
   const { addNewItem } = useItems();
 
   const initItemForm = {
@@ -13,9 +37,14 @@ const AddMenuForm = () => {
   };
   const [newItem, setNewItem] = useState(initItemForm);
 
-  function submitHandler(e) {
+  async function submitHandler(e) {
     e.preventDefault();
-    setNewItem({ ...newItem, price: parseInt(newItem.price), id: uuid() });
+    await setNewItem({
+      ...newItem,
+      price: parseInt(newItem.price),
+      id: uuid(),
+    });
+    onClose();
   }
 
   useEffect(() => {
@@ -28,8 +57,11 @@ const AddMenuForm = () => {
     }
   }, [newItem.id]);
   return (
-    <>
-      <form onSubmit={submitHandler}>
+    <FormParent>
+      <FormContainer onSubmit={submitHandler}>
+        <button type="button" onClick={onClose}>
+          cancel edit
+        </button>
         <label>enter food name: </label>
         <input
           type="text"
@@ -49,9 +81,13 @@ const AddMenuForm = () => {
           onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
         />
         <button type="submit">add item to menu</button>
-      </form>
-    </>
+      </FormContainer>
+    </FormParent>
   );
 };
 
 export default AddMenuForm;
+
+AddMenuForm.propTypes = {
+  onClose: PropTypes.func,
+};

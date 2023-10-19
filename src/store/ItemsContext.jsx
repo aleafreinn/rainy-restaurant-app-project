@@ -16,7 +16,10 @@ export function ItemsContextProvider({ children }) {
     setItemsData([...itemsData, item]);
   };
   const removeItem = (id) => {
-    return id;
+    const newItemsData = itemsData.filter((item) => {
+      return item.id !== id;
+    });
+    setItemsData([...newItemsData]);
   };
   const updateItem = (id) => {
     return id;

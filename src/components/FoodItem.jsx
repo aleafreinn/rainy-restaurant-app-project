@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 import { useCart } from "../store/CartContext";
+import { useItems } from "../store/ItemsContext";
 
 const FoodContainer = styled.div`
   display: flex;
@@ -21,8 +22,16 @@ const FoodContainer = styled.div`
   }
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+`;
+
 const FoodItem = ({ id, name, desc, price }) => {
   const { addItem, cartItems } = useCart();
+  const { switchPage, removeItem } = useItems();
 
   useEffect(() => {
     console.log(cartItems);
@@ -32,7 +41,14 @@ const FoodItem = ({ id, name, desc, price }) => {
       <p>{name}</p>
       <div>{desc}</div>
       <h3>RM{price}</h3>
-      <button onClick={() => addItem({ id, name, price })}>add to cart</button>
+      <ButtonContainer>
+        <button onClick={() => addItem({ id, name, price })}>
+          add to cart
+        </button>
+        {switchPage && (
+          <button onClick={() => removeItem(id)}>remove item from menu</button>
+        )}
+      </ButtonContainer>
     </FoodContainer>
   );
 };
