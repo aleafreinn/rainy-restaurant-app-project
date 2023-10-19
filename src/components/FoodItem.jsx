@@ -34,7 +34,7 @@ const FoodItem = ({ id, name, desc, price }) => {
   const { switchPage, removeItem } = useItems();
 
   useEffect(() => {
-    console.log(cartItems);
+    // console.log(cartItems);
   }, [cartItems]);
   return (
     <FoodContainer>

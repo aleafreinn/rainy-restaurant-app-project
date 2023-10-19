@@ -31,6 +31,9 @@ const PositionedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
 `;
 
 function App() {
@@ -39,12 +42,16 @@ function App() {
       <ItemsContextProvider>
         <CartContextProvider>
           <Router>
-            <Header />
             <CartButton />
-            <AdministrationMode />
+            <Header />
+            <PositionedContainer>
+              <section>
+                <AdministrationMode />
 
-            <FoodList />
-            <Footer />
+                <FoodList />
+              </section>
+              <Footer />
+            </PositionedContainer>
           </Router>
         </CartContextProvider>
       </ItemsContextProvider>

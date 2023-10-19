@@ -9,7 +9,7 @@ export const CartContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem(LS_CARTITEMS_KEY)) ?? []
   );
   const [totalOrderAmt, setTotalOrderAmt] = useState(0);
-  // const [totalPrice, setTotalPrice] = useState(0)
+  const [totalPrice, setTotalPrice] = useState(0);
 
   // add item to cart function
   const addItem = (item) => {
@@ -29,17 +29,46 @@ export const CartContextProvider = ({ children }) => {
   // calculate number of item in cart function
   function totalOrderAmtHandler() {
     let totalOrder = 0;
+    let accPrice = 0;
     for (let foodItemNum = 0; foodItemNum < cartItems.length; foodItemNum++) {
       totalOrder += cartItems[foodItemNum].qty;
+      accPrice += cartItems[foodItemNum].qty * cartItems[foodItemNum].price;
     }
     setTotalOrderAmt(totalOrder);
+    setTotalPrice(accPrice);
   }
 
-  // remove item in cart function
-  const removeItem = (item) => {
-    return item;
+  // modify item in cart function
+  const cartItemModify = {
+    add: async (menuItem) => {
+      const newCartItems = cartItems.map((item) => {
+        if (menuItem.id === item.id) {
+          item.qty++;
+          return { ...item };
+        } else return { ...item };
+      });
+      await setCartItems(newCartItems);
+    },
+    cut: (menuItem) => {
+      if (menuItem.qty > 0) {
+        const newCartItems = cartItems.map((item) => {
+          if (menuItem.id === item.id) {
+            item.qty--;
+            return { ...item };
+          } else return { ...item };
+        });
+        setCartItems(newCartItems);
+      }
+    },
+    remove: (menuItem) => {
+      const newCartItems = cartItems.filter((item) => {
+        return item.id !== menuItem.id;
+      });
+      setCartItems(newCartItems);
+    },
   };
 
+  // to verify the list of items in cart when some items in menu being removed
   const cartItemVerify = (itemsList) => {
     // itemsList to be passed only as "itemsData" from ItemsCtx later
     let itemsIDList = [];
@@ -55,8 +84,9 @@ export const CartContextProvider = ({ children }) => {
   const value = {
     cartItems,
     totalOrderAmt,
+    totalPrice,
     addItem,
-    removeItem,
+    cartItemModify,
     totalOrderAmtHandler,
     cartItemVerify,
   };

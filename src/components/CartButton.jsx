@@ -9,9 +9,9 @@ import { useItems } from "../store/ItemsContext";
 
 const CustomButton = styled(Button)`
   color: white;
-  position: absolute;
+  position: fixed;
   top: 1.5%;
-  right: 1.5%;
+  right: 1%;
 `;
 
 const CartCount = styled(Paper)`

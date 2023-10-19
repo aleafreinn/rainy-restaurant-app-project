@@ -25,7 +25,16 @@ const CartBox = styled.div`
 `;
 
 const CartSummary = ({ onClose }) => {
-  const { cartItems } = useCart();
+  const { cartItems, cartItemModify, totalPrice } = useCart();
+  const closeHandler = async () => {
+    for (let item = 0; item < cartItems.length; item++) {
+      if (cartItems[item].qty === 0) {
+        await cartItemModify.remove(cartItems[item]);
+      }
+    }
+    onClose();
+  };
+  console.log(cartItems);
 
   const cartItemsList = cartItems.map((item) => {
     return (
@@ -33,8 +42,9 @@ const CartSummary = ({ onClose }) => {
         <li>
           {item.name} - {item.qty} ; Total: RM{item.qty * item.price}
           <br />
-          <button>+</button>
-          <button>-</button>
+          <button onClick={() => cartItemModify.cut(item)}>-</button>
+          <button onClick={() => cartItemModify.add(item)}>+</button>
+          <button onClick={() => cartItemModify.remove(item)}>remove</button>
         </li>
       </>
     );
@@ -45,7 +55,8 @@ const CartSummary = ({ onClose }) => {
         <CartBox>
           this is the summary for cart
           <ul>{cartItemsList}</ul>
-          <button onClick={onClose}>close</button>
+          <h3>The grand total of the cart: RM{totalPrice}</h3>
+          <button onClick={closeHandler}>close</button>
         </CartBox>
       </CartContainer>
     </>
