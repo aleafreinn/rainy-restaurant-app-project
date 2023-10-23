@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useItems } from "../store/ItemsContext";
+import imageAPI from "../api/imageAPI";
 import PropTypes from "prop-types";
 
 const FormParent = styled.main`
@@ -27,14 +28,25 @@ const FormContainer = styled.form`
 
 const EditMenuForm = ({ targetItem, onClose }) => {
   const [newItemChanges, setNewItemChanges] = useState(targetItem);
+  const [imagePreview, setImagePreview] = useState(targetItem.image);
   const { updateItem } = useItems();
+  const updateImageEl = useRef("");
 
   async function editSubmitHandler(event) {
     event.preventDefault();
+    let updatedImage = targetItem.image;
+    if (updateImageEl?.current?.files[0]) {
+      const imagePayload = new FormData();
+      imagePayload.append("image", updateImageEl.current.files[0]);
+      const imageResponse = await imageAPI.post("", imagePayload);
+      updatedImage = imageResponse.data.data.image.url;
+    }
     await updateItem({
       ...newItemChanges,
       price: parseInt(newItemChanges.price),
+      image: updatedImage,
     });
+    console.log("edited!");
     onClose();
   }
 
@@ -67,6 +79,16 @@ const EditMenuForm = ({ targetItem, onClose }) => {
             setNewItemChanges({ ...newItemChanges, price: e.target.value })
           }
         />
+        <label>Enter new image:</label>
+        <input
+          ref={updateImageEl}
+          type="file"
+          accept=".jpg, .jpeg, .png"
+          onChange={() =>
+            setImagePreview(URL.createObjectURL(updateImageEl.current.files[0]))
+          }
+        />
+        <img style={{ width: "100px" }} src={imagePreview} />
         <button type="submit">save changes</button>
       </FormContainer>
     </FormParent>

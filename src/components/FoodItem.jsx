@@ -32,7 +32,7 @@ const ButtonContainer = styled.div`
 `;
 
 const FoodItem = ({ item }) => {
-  const { id, name, desc, price } = item;
+  const { id, name, desc, price, image } = item;
   const { addItem, cartItems } = useCart();
   const { switchPage, removeItem } = useItems();
   const [showEditForm, setShowEditForm] = useState(false);
@@ -42,6 +42,7 @@ const FoodItem = ({ item }) => {
   }, [cartItems]);
   return (
     <FoodContainer>
+      <img style={{ width: "350px" }} src={image ?? ""} alt="" />
       <p>{name}</p>
       <div>{desc}</div>
       <h3>RM{price}</h3>

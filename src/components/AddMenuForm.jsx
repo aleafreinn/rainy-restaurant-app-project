@@ -1,6 +1,7 @@
 import { useItems } from "../store/ItemsContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { v4 as uuid } from "uuid";
+import imageAPI from "../api/imageAPI";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 
@@ -26,6 +27,10 @@ const FormContainer = styled.form`
   align-items: center;
 `;
 
+const ImageContainer = styled.img`
+  width: 100px;
+`;
+
 const AddMenuForm = ({ onClose }) => {
   const { addNewItem } = useItems();
 
@@ -34,23 +39,33 @@ const AddMenuForm = ({ onClose }) => {
     name: "",
     desc: "",
     price: "",
+    image: "",
   };
+
   const [newItem, setNewItem] = useState(initItemForm);
+  const [imagePreview, setImagePreview] = useState("");
+  const inputImageEl = useRef("");
 
   async function submitHandler(e) {
     e.preventDefault();
+    const imagePayload = new FormData();
+    imagePayload.append("image", inputImageEl.current.files[0]);
+    console.log(imagePayload);
+    const response = await imageAPI.post("", imagePayload);
+    console.log(response);
     await setNewItem({
       ...newItem,
       price: parseInt(newItem.price),
       id: uuid(),
+      image: response.data.data.image.url,
     });
-    onClose();
   }
 
   useEffect(() => {
     if (newItem.id !== "") {
       addNewItem(newItem);
       console.log("added!");
+      onClose();
       // console.log(newItem);
       // console.log(parseInt(newItem.price));
       setNewItem(initItemForm);
@@ -81,7 +96,15 @@ const AddMenuForm = ({ onClose }) => {
           onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
         />
         <label>insert image: </label>
-        <input type="file" />
+        <input
+          ref={inputImageEl}
+          type="file"
+          accept=".jpg, .jpeg, .png"
+          onChange={() =>
+            setImagePreview(URL.createObjectURL(inputImageEl.current.files[0]))
+          }
+        />
+        <ImageContainer src={imagePreview} />
         <button type="submit">add item to menu</button>
       </FormContainer>
     </FormParent>
