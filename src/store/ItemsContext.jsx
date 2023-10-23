@@ -12,18 +12,30 @@ export function ItemsContextProvider({ children }) {
     JSON.parse(localStorage.getItem(LS_ITEMSDATA_KEY)) ?? []
   );
 
+  // function to add new items
   const addNewItem = (item) => {
     setItemsData([...itemsData, item]);
   };
+
+  // function to remove item in data
   const removeItem = (id) => {
     const newItemsData = itemsData.filter((item) => {
       return item.id !== id;
     });
     setItemsData([...newItemsData]);
   };
-  const updateItem = (id) => {
-    return id;
+
+  // function to update item in the data
+  const updateItem = (targetItem) => {
+    const updatedItemsList = itemsData.map((item) => {
+      if (item.id === targetItem.id) {
+        return { ...targetItem };
+      } else return item;
+    });
+    setItemsData(updatedItemsList);
   };
+
+  // to switch mode between admin and user
   const togglePage = () => {
     setSwitchPage(!switchPage);
   };

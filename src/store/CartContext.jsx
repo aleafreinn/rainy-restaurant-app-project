@@ -75,9 +75,17 @@ export const CartContextProvider = ({ children }) => {
     for (let item = 0; item < itemsList.length; item++) {
       itemsIDList.push(itemsList[item].id);
     }
-    const verifiedCartItems = cartItems.filter((item) => {
-      return itemsIDList.indexOf(item.id) !== -1;
-    });
+    const verifiedCartItems = cartItems
+      .filter((item) => {
+        return itemsIDList.indexOf(item.id) !== -1;
+      })
+      .map((item) => {
+        const targetItemID = itemsList.filter((foodItem) => {
+          return foodItem.id === item.id;
+        });
+        return { ...targetItemID[0], qty: item.qty };
+      });
+    console.log(`verified cart items`, verifiedCartItems);
     setCartItems(verifiedCartItems);
   };
 

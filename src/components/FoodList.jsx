@@ -9,10 +9,11 @@ const FoodList = () => {
       <>
         <FoodItem
           key={item.id}
-          id={item.id}
-          name={item.name}
-          desc={item.desc}
-          price={item.price}
+          item={item}
+          // id={item.id}
+          // name={item.name}
+          // desc={item.desc}
+          // price={item.price}
         />
         {/* <li>
           {item.name} - {item.desc} - RM{item.price}

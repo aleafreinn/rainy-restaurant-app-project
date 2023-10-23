@@ -6,10 +6,10 @@ import PropTypes from "prop-types";
 
 const FormParent = styled.main`
   background-color: #00000044;
-  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
   top: 0px;
-  bottom: 0px;
-  left: 0px;
   right: 0px;
   display: flex;
   justify-content: center;
@@ -51,8 +51,8 @@ const AddMenuForm = ({ onClose }) => {
     if (newItem.id !== "") {
       addNewItem(newItem);
       console.log("added!");
-      console.log(newItem);
-      console.log(parseInt(newItem.price));
+      // console.log(newItem);
+      // console.log(parseInt(newItem.price));
       setNewItem(initItemForm);
     }
   }, [newItem.id]);
@@ -80,6 +80,8 @@ const AddMenuForm = ({ onClose }) => {
           value={parseInt(newItem.price) < 0 ? 0 : newItem.price}
           onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
         />
+        <label>insert image: </label>
+        <input type="file" />
         <button type="submit">add item to menu</button>
       </FormContainer>
     </FormParent>

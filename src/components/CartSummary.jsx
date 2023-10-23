@@ -4,10 +4,10 @@ import { useCart } from "../store/CartContext";
 
 const CartContainer = styled.main`
   background-color: #00000044;
-  position: absolute;
+  height: 100%;
+  width: 100%;
+  position: fixed;
   top: 0px;
-  bottom: 0px;
-  left: 0px;
   right: 0px;
   display: flex;
   justify-content: center;
@@ -40,7 +40,7 @@ const CartSummary = ({ onClose }) => {
     return (
       <>
         <li>
-          {item.name} - {item.qty} ; Total: RM{item.qty * item.price}
+          {item.name} - x{item.qty} ; Total: RM{item.qty * item.price}
           <br />
           <button onClick={() => cartItemModify.cut(item)}>-</button>
           <button onClick={() => cartItemModify.add(item)}>+</button>
@@ -56,7 +56,10 @@ const CartSummary = ({ onClose }) => {
           this is the summary for cart
           <ul>{cartItemsList}</ul>
           <h3>The grand total of the cart: RM{totalPrice}</h3>
-          <button onClick={closeHandler}>close</button>
+          <div style={{ display: "flex", gap: "2rem" }}>
+            <button onClick={closeHandler}>close</button>
+            <button>order</button>
+          </div>
         </CartBox>
       </CartContainer>
     </>

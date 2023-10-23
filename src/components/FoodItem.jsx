@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import styled from "@emotion/styled";
 import PropTypes from "prop-types";
 import { useCart } from "../store/CartContext";
 import { useItems } from "../store/ItemsContext";
+import EditMenuForm from "./EditMenuForm";
 
 const FoodContainer = styled.div`
   display: flex;
@@ -29,9 +31,11 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
-const FoodItem = ({ id, name, desc, price }) => {
+const FoodItem = ({ item }) => {
+  const { id, name, desc, price } = item;
   const { addItem, cartItems } = useCart();
   const { switchPage, removeItem } = useItems();
+  const [showEditForm, setShowEditForm] = useState(false);
 
   useEffect(() => {
     // console.log(cartItems);
@@ -46,18 +50,30 @@ const FoodItem = ({ id, name, desc, price }) => {
           add to cart
         </button>
         {switchPage && (
-          <button onClick={() => removeItem(id)}>remove item from menu</button>
+          <>
+            <button onClick={() => removeItem(id)}>
+              remove item from menu
+            </button>
+            <button onClick={() => setShowEditForm(true)}>
+              edit item from menu
+            </button>
+          </>
         )}
+        {showEditForm &&
+          createPortal(
+            <EditMenuForm
+              onClose={() => setShowEditForm(false)}
+              targetItem={item}
+            />,
+            document.body
+          )}
       </ButtonContainer>
     </FoodContainer>
   );
 };
 
 FoodItem.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  desc: PropTypes.string,
-  price: PropTypes.number,
+  item: PropTypes.object,
 };
 
 export default FoodItem;
