@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import TextField from "@mui/material/TextField";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import InputAdornment from "@mui/material/InputAdornment";
 import PropTypes from "prop-types";
 
 const FormParent = styled.main`
@@ -63,7 +64,7 @@ const AddMenuForm = ({ onClose }) => {
   const [imagePreview, setImagePreview] = useState("");
   const [imageName, setImageName] = useState("");
   const [throwBlankError, setThrowBlankError] = useState(false);
-  const [openSnack, setOpenSnack] = useState(false);
+  const [openInputErrorSnack, setOpenInputErrorSnack] = useState(false);
   const inputImageEl = useRef("");
 
   async function submitHandler(e) {
@@ -72,11 +73,11 @@ const AddMenuForm = ({ onClose }) => {
       newItem.name === "" ||
       newItem.desc === "" ||
       newItem.price === "0" ||
-      imageName === ""
+      imagePreview === ""
     ) {
       console.log("error");
       setThrowBlankError(true);
-      setOpenSnack(true);
+      setOpenInputErrorSnack(true);
     } else {
       const imagePayload = new FormData();
       imagePayload.append("image", inputImageEl.current.files[0]);
@@ -116,6 +117,7 @@ const AddMenuForm = ({ onClose }) => {
           }
           placeholder="burger"
           variant="filled"
+          sx={{ width: "100%" }}
           type="text"
           value={newItem.name}
           onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
@@ -131,6 +133,7 @@ const AddMenuForm = ({ onClose }) => {
           multiline
           placeholder="The delicious burger coated with greasy patty"
           variant="filled"
+          sx={{ width: "100%" }}
           type="text"
           value={newItem.desc}
           onChange={(e) => setNewItem({ ...newItem, desc: e.target.value })}
@@ -145,17 +148,23 @@ const AddMenuForm = ({ onClose }) => {
           }
           placeholder="15"
           variant="filled"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">RM</InputAdornment>
+            ),
+          }}
+          sx={{ width: "100%" }}
           type="number"
           value={parseInt(newItem.price) < 0 ? 0 : newItem.price}
           onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
         />
         <ImageField htmlFor="input_image">
-          {imageName[0] ? "image will be displayed:" : "insert image here"}
+          {imagePreview[0] ? "image will be displayed:" : "insert image here"}
           <ImageContainer src={imagePreview} />
           {imageName}
         </ImageField>
         <p style={{ color: "red" }}>
-          {!imageName[0] && throwBlankError
+          {!imagePreview[0] && throwBlankError
             ? "Image is mandatory to be uploaded"
             : ""}
         </p>
@@ -180,13 +189,13 @@ const AddMenuForm = ({ onClose }) => {
         <button type="submit">add item to menu</button>
       </FormContainer>
       <Snackbar
-        open={openSnack}
+        open={openInputErrorSnack}
         autoHideDuration={5000}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        onClose={() => setOpenSnack(false)}
+        onClose={() => setOpenInputErrorSnack(false)}
       >
         <Alert
-          onClose={() => setOpenSnack(false)}
+          onClose={() => setOpenInputErrorSnack(false)}
           severity="error"
           elevation={12}
           sx={{ width: "100%" }}
