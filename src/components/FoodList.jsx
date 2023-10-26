@@ -1,4 +1,5 @@
 import { useItems } from "../store/ItemsContext";
+import Grid from "@mui/material/Grid";
 import FoodItem from "./FoodItem";
 
 const FoodList = () => {
@@ -9,7 +10,7 @@ const FoodList = () => {
       <>
         <FoodItem
           key={item.id}
-          item={item}
+          targetItem={item}
           // id={item.id}
           // name={item.name}
           // desc={item.desc}
@@ -22,10 +23,17 @@ const FoodList = () => {
     );
   });
   return (
-    <>
-      <div>list here</div>
+    <Grid
+      container
+      direction="row"
+      rowSpacing={2}
+      columnSpacing={2}
+      justifyContent="space-around"
+      alignItems="center"
+      sx={{ padding: "1rem", boxSizing: "border-box" }}
+    >
       {foodItems}
-    </>
+    </Grid>
   );
 };
 

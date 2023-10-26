@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CartSummary from "./CartSummary";
 import { useCart } from "../store/CartContext";
 import { useItems } from "../store/ItemsContext";
@@ -12,6 +13,11 @@ const CustomButton = styled(Button)`
   position: fixed;
   top: 1.5%;
   right: 1%;
+  background-color: #b9a21d88;
+  z-index: 2;
+  &:hover {
+    background-color: #fcdb24cc;
+  }
 `;
 
 const CartCount = styled(Paper)`
@@ -38,6 +44,7 @@ const CartButton = () => {
   return (
     <>
       <CustomButton onClick={() => setShowCart(!showCart)}>
+        <ShoppingCartIcon />
         Cart
         <CartCount>{totalOrderAmt}</CartCount>
       </CustomButton>
