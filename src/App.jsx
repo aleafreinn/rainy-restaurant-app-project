@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import FoodList from "./components/FoodList";
 import CartButton from "./components/CartButton";
+import AboutComponent from "./components/AboutComponent";
 import styled from "@emotion/styled";
 
 function AdministrationMode() {
@@ -44,6 +45,7 @@ function App() {
           <Router>
             <CartButton />
             <Header />
+            <AboutComponent />
             <PositionedContainer>
               <section>
                 <AdministrationMode />
