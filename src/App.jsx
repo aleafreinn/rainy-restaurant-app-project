@@ -35,6 +35,9 @@ const PositionedContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 100vh;
+  & > section {
+    width: 75%;
+  }
 `;
 
 function App() {
@@ -45,11 +48,10 @@ function App() {
           <Router>
             <CartButton />
             <Header />
-            <AboutComponent />
             <PositionedContainer>
               <section>
+                <AboutComponent />
                 <AdministrationMode />
-
                 <FoodList />
               </section>
               <Footer />
