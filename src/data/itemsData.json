@@ -1,0 +1,30 @@
+[
+  {
+    "id": "e4808879-4729-4d5d-b4b5-424d6c230fdb",
+    "name": "cheeseburger",
+    "desc": "the good ol' cheeseburger that melts in your mouth",
+    "price": 18,
+    "image": "https://i.ibb.co/hMbGv8k/13xp-cheese-king-super-Jumbo.jpg"
+  },
+  {
+    "id": "69030ebf-92a5-4a6d-855f-48e24a3a13dc",
+    "name": "korean corndog",
+    "desc": "the best korean streetfood you can dine here",
+    "price": 12,
+    "image": "https://i.ibb.co/FHw0wqf/French-Fry-Corn-Dog-3-scaled.jpg"
+  },
+  {
+    "id": "df063b55-8173-42ee-a391-777f056669d5",
+    "name": "chocolate ice cream",
+    "desc": "sweet cold dessert you can taste aftermath",
+    "price": 4,
+    "image": "https://i.ibb.co/n8Qxgjz/homemade-chocolate-ice-cream-recipe-7.jpg"
+  },
+  {
+    "id": "592c5eed-068f-4ae3-8779-21e570e0e2d3",
+    "name": "mushroom sausa",
+    "desc": "feeling under the weather? you can have it",
+    "price": 6,
+    "image": "https://i.ibb.co/cN0bTBy/Mushroom-Sherry-Soup-197e89f46a45485994f89c96fd5298a7.jpg"
+  }
+]

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import initialItemsData from "../data/itemsData.json";
 import PropTypes from "prop-types";
 
 const ItemsContext = createContext({
@@ -9,7 +10,7 @@ export function ItemsContextProvider({ children }) {
   const LS_ITEMSDATA_KEY = "itemsData";
   const [switchPage, setSwitchPage] = useState(false);
   const [itemsData, setItemsData] = useState(
-    JSON.parse(localStorage.getItem(LS_ITEMSDATA_KEY)) ?? []
+    JSON.parse(localStorage.getItem(LS_ITEMSDATA_KEY)) ?? [...initialItemsData]
   );
 
   // function to add new items
