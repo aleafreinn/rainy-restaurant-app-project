@@ -1,10 +1,22 @@
 import styled from "@emotion/styled";
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/scss/image-gallery.scss";
+import "./image-gallery-modifier.scss";
+import { useItems } from "../../store/ItemsContext";
 
 const MainContainer = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  gap: 4rem;
+
+  @media screen and (max-width: 1200px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const DescriptionBox = styled.section`
@@ -24,9 +36,36 @@ const DescriptionBox = styled.section`
   & > h2 {
     color: #ffe02edc;
   }
+
+  @media screen and (max-width: 1200px) {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+`;
+
+const ImageBox = styled.section`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 const AboutComponent = () => {
+  const { itemsData } = useItems();
+  const imageList = itemsData.map((itemData) => {
+    return {
+      original: itemData.image,
+      thumbnail: itemData.image,
+    };
+  });
+  console.log(imageList);
   return (
     <MainContainer>
       <DescriptionBox>
@@ -54,6 +93,15 @@ const AboutComponent = () => {
           while ensuring they taste just as good as they look on-screen.
         </p>
       </DescriptionBox>
+      <ImageBox>
+        <ImageGallery
+          items={imageList}
+          showThumbnails={false}
+          showFullscreenButton={false}
+          autoPlay={true}
+          showPlayButton={false}
+        />
+      </ImageBox>
     </MainContainer>
   );
 };

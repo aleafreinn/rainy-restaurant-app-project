@@ -10,7 +10,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import FoodList from "./components/FoodList";
 import CartButton from "./components/CartButton";
-import AboutComponent from "./components/AboutComponent";
+import AboutComponent from "./components/AboutComponent/AboutComponent";
 import styled from "@emotion/styled";
 
 function AdministrationMode() {
