@@ -8,6 +8,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
+import Paper from "@mui/material/Paper";
 // import styled from "@emotion/styled";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
@@ -48,11 +49,63 @@ const DescriptionBox = styled(Typography)`
   -webkit-box-orient: vertical;
 `;
 
+const DeleteConfirmPortal = ({ targetItem, removeFunc, onClose }) => {
+  const FormParent = styled(Paper)`
+    background-color: #00000044;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+  `;
+
+  const FormContainer = styled(Paper)`
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 1rem 2rem;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `;
+
+  async function removeButtonHandler() {
+    await removeFunc(targetItem.id);
+    onClose();
+  }
+
+  return (
+    <>
+      <FormParent>
+        <FormContainer>
+          <h2>Hang on!</h2>
+          <p>Are you sure you want to remove {targetItem.name}?</p>
+          <div>
+            <button onClick={removeButtonHandler}>Delete</button>
+            <button onClick={onClose}>Cancel</button>
+          </div>
+        </FormContainer>
+      </FormParent>
+    </>
+  );
+};
+
+DeleteConfirmPortal.propTypes = {
+  targetItem: PropTypes.object,
+  onClose: PropTypes.func,
+  removeFunc: PropTypes.func,
+};
+
 const FoodItem = ({ targetItem }) => {
   const { id, name, desc, price, image } = targetItem;
   const { addItem, cartItems } = useCart();
   const { switchPage, removeItem } = useItems();
   const [showEditForm, setShowEditForm] = useState(false);
+  const [showDeletePortal, setShowDeletePortal] = useState(false);
 
   useEffect(() => {
     // console.log(cartItems);
@@ -89,7 +142,7 @@ const FoodItem = ({ targetItem }) => {
 
           {switchPage && (
             <>
-              <Button size="small" onClick={() => removeItem(id)}>
+              <Button size="small" onClick={() => setShowDeletePortal(true)}>
                 remove item from menu
               </Button>
               <Button size="small" onClick={() => setShowEditForm(true)}>
@@ -97,6 +150,16 @@ const FoodItem = ({ targetItem }) => {
               </Button>
             </>
           )}
+
+          {showDeletePortal &&
+            createPortal(
+              <DeleteConfirmPortal
+                onClose={() => setShowDeletePortal(false)}
+                targetItem={targetItem}
+                removeFunc={removeItem}
+              />,
+              document.body
+            )}
         </CardActions>
       </Card>
       {/* <img style={{ width: "350px" }} src={image ?? ""} alt="" />

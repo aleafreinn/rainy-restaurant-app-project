@@ -11,6 +11,7 @@ import Header from "./components/Header";
 import FoodList from "./components/FoodList";
 import CartButton from "./components/CartButton";
 import AboutComponent from "./components/AboutComponent/AboutComponent";
+import SnacksNotifier from "./components/SnacksNotifier";
 import styled from "@emotion/styled";
 
 function AdministrationMode() {
@@ -54,6 +55,7 @@ function App() {
                 <AdministrationMode />
                 <FoodList />
               </section>
+              <SnacksNotifier />
               <Footer />
             </PositionedContainer>
           </Router>
