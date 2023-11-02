@@ -1,6 +1,7 @@
 import { useItems } from "../store/ItemsContext";
 import Grid from "@mui/material/Grid";
 import FoodItem from "./FoodItem";
+import { SnackbarProvider } from "notistack";
 
 const FoodList = () => {
   const { itemsData } = useItems();
@@ -23,17 +24,19 @@ const FoodList = () => {
     );
   });
   return (
-    <Grid
-      container
-      direction="row"
-      rowSpacing={2}
-      columnSpacing={2}
-      justifyContent="space-around"
-      alignItems="center"
-      sx={{ padding: "1rem", boxSizing: "border-box" }}
-    >
-      {foodItems}
-    </Grid>
+    <SnackbarProvider maxSnack={5} autoHideDuration={2000}>
+      <Grid
+        container
+        direction="row"
+        rowSpacing={2}
+        columnSpacing={2}
+        justifyContent="space-around"
+        alignItems="center"
+        sx={{ padding: "1rem", boxSizing: "border-box" }}
+      >
+        {foodItems}
+      </Grid>
+    </SnackbarProvider>
   );
 };
 

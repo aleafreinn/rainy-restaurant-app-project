@@ -8,9 +8,11 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
+import CloseIcon from "@mui/icons-material/Close";
 import Paper from "@mui/material/Paper";
 // import styled from "@emotion/styled";
 import { styled } from "@mui/material/styles";
+import { useSnackbar } from "notistack";
 import PropTypes from "prop-types";
 import { useCart } from "../store/CartContext";
 import { useItems } from "../store/ItemsContext";
@@ -106,63 +108,78 @@ const FoodItem = ({ targetItem }) => {
   const { switchPage, removeItem } = useItems();
   const [showEditForm, setShowEditForm] = useState(false);
   const [showDeletePortal, setShowDeletePortal] = useState(false);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  async function addButtonHandler() {
+    const action = (id) => (
+      <Button sx={{ color: "white" }} onClick={() => closeSnackbar(id)}>
+        <CloseIcon />
+      </Button>
+    );
+    await addItem({ id, name, price });
+    enqueueSnackbar(`Added ${name} to the cart!`, {
+      variant: "success",
+      action,
+    });
+  }
 
   useEffect(() => {
     // console.log(cartItems);
   }, [cartItems]);
   return (
-    <Grid item>
-      <Card
-        sx={{
-          width: 350,
-          height: 430,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        <CardMedia sx={{ height: 225 }} image={image} />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {name}
-          </Typography>
-          <DescriptionBox variant="body2" color="text.secondary">
-            {desc}
-          </DescriptionBox>
-        </CardContent>
-        <CardActions>
-          <Button
-            size="small"
-            sx={{ color: "#e2c000", fontWeight: "bold" }}
-            onClick={() => addItem({ id, name, price })}
-          >
-            <ShoppingCart />
-            Add!
-          </Button>
+    <>
+      <Grid item>
+        <Card
+          sx={{
+            width: 350,
+            height: 430,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <CardMedia sx={{ height: 225 }} image={image} />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {name}
+            </Typography>
+            <DescriptionBox variant="body2" color="text.secondary">
+              {desc}
+            </DescriptionBox>
+          </CardContent>
+          <CardActions>
+            <Button
+              size="small"
+              sx={{ color: "#e2c000", fontWeight: "bold" }}
+              onClick={addButtonHandler}
+            >
+              <ShoppingCart />
+              Add!
+            </Button>
 
-          {switchPage && (
-            <>
-              <Button size="small" onClick={() => setShowDeletePortal(true)}>
-                remove item from menu
-              </Button>
-              <Button size="small" onClick={() => setShowEditForm(true)}>
-                edit item from menu
-              </Button>
-            </>
-          )}
-
-          {showDeletePortal &&
-            createPortal(
-              <DeleteConfirmPortal
-                onClose={() => setShowDeletePortal(false)}
-                targetItem={targetItem}
-                removeFunc={removeItem}
-              />,
-              document.body
+            {switchPage && (
+              <>
+                <Button size="small" onClick={() => setShowDeletePortal(true)}>
+                  remove item from menu
+                </Button>
+                <Button size="small" onClick={() => setShowEditForm(true)}>
+                  edit item from menu
+                </Button>
+              </>
             )}
-        </CardActions>
-      </Card>
-      {/* <img style={{ width: "350px" }} src={image ?? ""} alt="" />
+
+            {showDeletePortal &&
+              createPortal(
+                <DeleteConfirmPortal
+                  onClose={() => setShowDeletePortal(false)}
+                  targetItem={targetItem}
+                  removeFunc={removeItem}
+                />,
+                document.body
+              )}
+          </CardActions>
+        </Card>
+        {/* <img style={{ width: "350px" }} src={image ?? ""} alt="" />
       <p>{name}</p>
       <div>{desc}</div>
       <h3>RM{price}</h3>
@@ -182,15 +199,16 @@ const FoodItem = ({ targetItem }) => {
         )}
       </ButtonContainer> */}
 
-      {showEditForm &&
-        createPortal(
-          <EditMenuForm
-            onClose={() => setShowEditForm(false)}
-            targetItem={targetItem}
-          />,
-          document.body
-        )}
-    </Grid>
+        {showEditForm &&
+          createPortal(
+            <EditMenuForm
+              onClose={() => setShowEditForm(false)}
+              targetItem={targetItem}
+            />,
+            document.body
+          )}
+      </Grid>
+    </>
   );
 };
 
