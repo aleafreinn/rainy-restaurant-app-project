@@ -51,6 +51,37 @@ const DescriptionBox = styled(Typography)`
   -webkit-box-orient: vertical;
 `;
 
+const AddButton = styled(Button)`
+  color: #e2c000;
+  font-weight: bold;
+
+  /* & > div#icon {
+    transform: scale(1) rotate(0deg);
+    transition: all 0.2s ease-in-out;
+  } */
+
+  &:active {
+    & > div#cartIcon {
+      animation: addCart 0.3s ease-in-out;
+    }
+  }
+
+  @keyframes addCart {
+    0% {
+      transform: scale(1) rotate(0deg);
+    }
+    33% {
+      transform: scale(1.25) rotate(-10deg);
+    }
+    66% {
+      transform: scale(1.5) rotate(20deg);
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+    }
+  }
+`;
+
 const DeleteConfirmPortal = ({ targetItem, removeFunc, onClose }) => {
   const FormParent = styled(Paper)`
     background-color: #00000044;
@@ -148,14 +179,16 @@ const FoodItem = ({ targetItem }) => {
             </DescriptionBox>
           </CardContent>
           <CardActions>
-            <Button
+            <AddButton
               size="small"
-              sx={{ color: "#e2c000", fontWeight: "bold" }}
+              // sx={{ color: "#e2c000", fontWeight: "bold" }}
               onClick={addButtonHandler}
             >
-              <ShoppingCart />
-              Add!
-            </Button>
+              <div id="cartIcon">
+                <ShoppingCart />
+              </div>
+              <div>Add!</div>
+            </AddButton>
 
             {switchPage && (
               <>

@@ -33,6 +33,7 @@ const FoodList = () => {
         justifyContent="space-around"
         alignItems="center"
         sx={{ padding: "1rem", boxSizing: "border-box" }}
+        id="food-list"
       >
         {foodItems}
       </Grid>

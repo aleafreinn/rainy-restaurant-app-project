@@ -74,8 +74,31 @@ const HeaderContainer = styled.section`
   }
 `;
 
+const FoodNavButton = styled(Button)`
+  background-color: ${yellow[600]};
+  color: #222222;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  margin: 3rem;
+  filter: drop-shadow(0rem 0.5rem 10px #ffe55488);
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: ${yellow[400]};
+    filter: drop-shadow(0rem 0.5rem 20px #ffe55488);
+  }
+`;
+
 const Header = () => {
   const imgHeaderLink = "https://i.ibb.co/SvscXFf/Japan-Anime-Food.jpg";
+
+  function scrollToSection(id) {
+    // event.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  }
 
   return (
     <>
@@ -87,19 +110,12 @@ const Header = () => {
           <hr />
           <h2>your aesthetic anime delights come to real life</h2>
           <h2>現実の美的アニメ料理</h2>
-          <Button
+          <FoodNavButton
             size="small"
-            sx={{
-              backgroundColor: yellow[600],
-              color: "#222222",
-              fontWeight: "bold",
-              padding: "0.5rem 1rem",
-              margin: "3rem",
-              filter: "drop-shadow(0rem 0.5rem 10px #ffe55488)",
-            }}
+            onClick={() => scrollToSection("food-list")}
           >
-            Learn more!
-          </Button>
+            tabemashou!
+          </FoodNavButton>
         </div>
         <img src={imgHeaderLink} alt="image header" />
       </HeaderContainer>
