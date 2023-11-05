@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
 import Paper from "@mui/material/Paper";
+import Divider from "@mui/material/Divider";
 // import styled from "@emotion/styled";
 import { styled } from "@mui/material/styles";
 import { useSnackbar } from "notistack";
@@ -55,12 +56,13 @@ const AddButton = styled(Button)`
   color: #e2c000;
   font-weight: bold;
 
-  /* & > div#icon {
-    transform: scale(1) rotate(0deg);
-    transition: all 0.2s ease-in-out;
+  /* &:active {
+    & > div#cartIcon {
+      animation: addCart 0.3s ease-in-out;
+    }
   } */
 
-  &:active {
+  &:focus {
     & > div#cartIcon {
       animation: addCart 0.3s ease-in-out;
     }
@@ -139,6 +141,7 @@ const FoodItem = ({ targetItem }) => {
   const { switchPage, removeItem } = useItems();
   const [showEditForm, setShowEditForm] = useState(false);
   const [showDeletePortal, setShowDeletePortal] = useState(false);
+  const addButtonEl = useRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   async function addButtonHandler() {
@@ -147,6 +150,9 @@ const FoodItem = ({ targetItem }) => {
         <CloseIcon />
       </Button>
     );
+    setTimeout(() => {
+      addButtonEl.current.blur();
+    }, 300);
     await addItem({ id, name, price });
     enqueueSnackbar(`Added ${name} to the cart!`, {
       variant: "success",
@@ -177,12 +183,17 @@ const FoodItem = ({ targetItem }) => {
             <DescriptionBox variant="body2" color="text.secondary">
               {desc}
             </DescriptionBox>
+            <Divider sx={{ margin: "1rem 0rem" }} />
+            <Typography gutterBottom variant="subtitle1" component="div">
+              RM{price}
+            </Typography>
           </CardContent>
           <CardActions>
             <AddButton
               size="small"
               // sx={{ color: "#e2c000", fontWeight: "bold" }}
               onClick={addButtonHandler}
+              ref={addButtonEl}
             >
               <div id="cartIcon">
                 <ShoppingCart />

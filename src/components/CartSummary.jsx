@@ -54,7 +54,7 @@ const CartSummary = ({ onClose }) => {
     <>
       <CartContainer>
         <CartBox>
-          this is the summary for cart
+          Cart Summary
           <ul>{cartItemsList}</ul>
           <h3>The grand total of the cart: RM{totalPrice}</h3>
           <div style={{ display: "flex", gap: "2rem" }}>
