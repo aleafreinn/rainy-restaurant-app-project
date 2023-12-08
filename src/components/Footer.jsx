@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { useItems } from "../store/ItemsContext";
+import { imageFooterURL } from "../constants/imageConstants";
 
 const StickyDiv = styled.footer`
   position: sticky;
@@ -9,6 +10,11 @@ const StickyDiv = styled.footer`
   text-align: center;
   width: 100%;
   padding: 1rem 0rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 5;
   & > p {
     margin: 0;
   }
@@ -19,9 +25,15 @@ const Footer = () => {
   return (
     <>
       <StickyDiv>
-        <p>This is the footer</p>
+        {switchPage ? (
+          <img src={imageFooterURL} alt="footer" style={{ width: "10%" }} />
+        ) : (
+          ""
+        )}
         <Link to={switchPage ? "/" : "/admin"}>
-          <button onClick={togglePage}>click me to toggle user mode</button>
+          <button onClick={togglePage}>
+            Toggle {switchPage ? "user" : "admin"} mode
+          </button>
         </Link>
       </StickyDiv>
     </>

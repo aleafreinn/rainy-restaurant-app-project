@@ -11,10 +11,12 @@ import { useItems } from "../store/ItemsContext";
 const CustomButton = styled(Button)`
   color: white;
   position: fixed;
-  top: 1.5%;
-  right: 1%;
+  top: 1rem;
+  right: 1rem;
   background-color: #b9a21d88;
   z-index: 2;
+  filter: drop-shadow(0px 5px 10px #b9a21d);
+
   &:hover {
     background-color: #fcdb24cc;
   }

@@ -1,6 +1,7 @@
 import Button from "@mui/material/Button";
 import { yellow } from "@mui/material/colors";
 import styled from "@emotion/styled";
+import { imageHeaderURL } from "../constants/imageConstants";
 
 const HeaderContainer = styled.section`
   position: relative;
@@ -9,10 +10,11 @@ const HeaderContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+
   & > img {
     width: 100%;
     max-height: 600px;
-    overflow: hidden;
     object-fit: cover;
   }
   & > .title-container {
@@ -47,8 +49,10 @@ const HeaderContainer = styled.section`
       width: 50%;
       margin-bottom: 2rem;
     }
+  }
 
-    @media screen and (max-width: 800px) {
+  @media screen and (max-width: 800px) {
+    .title-container {
       & > p {
         font-size: 35pt;
       }
@@ -59,8 +63,13 @@ const HeaderContainer = styled.section`
         margin-bottom: 1rem;
       }
     }
+    img {
+      width: 140%;
+    }
+  }
 
-    @media screen and (max-width: 600px) {
+  @media screen and (max-width: 600px) {
+    .title-container {
       & > p {
         font-size: 25pt;
       }
@@ -70,6 +79,9 @@ const HeaderContainer = styled.section`
       & > hr {
         margin-bottom: 0.5rem;
       }
+    }
+    img {
+      width: 160%;
     }
   }
 `;
@@ -90,8 +102,6 @@ const FoodNavButton = styled(Button)`
 `;
 
 const Header = () => {
-  const imgHeaderLink = "https://i.ibb.co/SvscXFf/Japan-Anime-Food.jpg";
-
   function scrollToSection(id) {
     // event.preventDefault();
     const element = document.getElementById(id);
@@ -117,7 +127,7 @@ const Header = () => {
             tabemashou!
           </FoodNavButton>
         </div>
-        <img src={imgHeaderLink} alt="image header" />
+        <img src={imageHeaderURL} alt="image header" />
       </HeaderContainer>
     </>
   );

@@ -25,6 +25,7 @@ const FoodList = () => {
   });
   return (
     <SnackbarProvider maxSnack={5} autoHideDuration={2000}>
+      <hr style={{ width: "100%" }} />
       <Grid
         container
         direction="row"
