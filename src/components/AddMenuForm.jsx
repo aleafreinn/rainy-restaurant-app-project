@@ -19,7 +19,7 @@ const FormParent = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  z-index: 5;
 `;
 
 const FormContainer = styled.form`

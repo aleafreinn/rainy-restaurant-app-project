@@ -9,15 +9,14 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
 import CloseIcon from "@mui/icons-material/Close";
-import Paper from "@mui/material/Paper";
 import Divider from "@mui/material/Divider";
-// import styled from "@emotion/styled";
 import { styled } from "@mui/material/styles";
 import { useSnackbar } from "notistack";
 import PropTypes from "prop-types";
 import { useCart } from "../store/CartContext";
 import { useItems } from "../store/ItemsContext";
 import EditMenuForm from "./EditMenuForm";
+import DeleteItem from "./DeleteItem";
 
 // const FoodContainer = styled.div`
 //   display: flex;
@@ -83,57 +82,6 @@ const AddButton = styled(Button)`
     }
   }
 `;
-
-const DeleteConfirmPortal = ({ targetItem, removeFunc, onClose }) => {
-  const FormParent = styled(Paper)`
-    background-color: #00000044;
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 3;
-  `;
-
-  const FormContainer = styled(Paper)`
-    background-color: #ffffff;
-    border-radius: 15px;
-    padding: 1rem 2rem;
-    color: black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  `;
-
-  async function removeButtonHandler() {
-    await removeFunc(targetItem.id);
-    onClose();
-  }
-
-  return (
-    <>
-      <FormParent>
-        <FormContainer>
-          <h2>Hang on!</h2>
-          <p>Are you sure you want to remove {targetItem.name}?</p>
-          <div>
-            <button onClick={removeButtonHandler}>Delete</button>
-            <button onClick={onClose}>Cancel</button>
-          </div>
-        </FormContainer>
-      </FormParent>
-    </>
-  );
-};
-
-DeleteConfirmPortal.propTypes = {
-  targetItem: PropTypes.object,
-  onClose: PropTypes.func,
-  removeFunc: PropTypes.func,
-};
 
 const FoodItem = ({ targetItem }) => {
   const { id, name, desc, price, image } = targetItem;
@@ -214,7 +162,7 @@ const FoodItem = ({ targetItem }) => {
 
             {showDeletePortal &&
               createPortal(
-                <DeleteConfirmPortal
+                <DeleteItem
                   onClose={() => setShowDeletePortal(false)}
                   targetItem={targetItem}
                   removeFunc={removeItem}
@@ -223,25 +171,6 @@ const FoodItem = ({ targetItem }) => {
               )}
           </CardActions>
         </Card>
-        {/* <img style={{ width: "350px" }} src={image ?? ""} alt="" />
-      <p>{name}</p>
-      <div>{desc}</div>
-      <h3>RM{price}</h3>
-      <ButtonContainer>
-        <button onClick={() => addItem({ id, name, price })}>
-          add to cart
-        </button>
-        {switchPage && (
-          <>
-            <button onClick={() => removeItem(id)}>
-              remove item from menu
-            </button>
-            <button onClick={() => setShowEditForm(true)}>
-              edit item from menu
-            </button>
-          </>
-        )}
-      </ButtonContainer> */}
 
         {showEditForm &&
           createPortal(

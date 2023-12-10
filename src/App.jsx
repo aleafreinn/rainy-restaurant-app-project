@@ -11,6 +11,7 @@ import Header from "./components/Header";
 import FoodList from "./components/FoodList";
 import CartButton from "./components/CartButton";
 import AboutComponent from "./components/AboutComponent/AboutComponent";
+import Dashboard from "./components/Dashboard";
 import SnacksNotifier from "./components/SnacksNotifier";
 import styled from "@emotion/styled";
 
@@ -29,15 +30,20 @@ function AdministrationMode() {
   );
 }
 
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: auto;
+`;
+
 const PositionedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100vh;
   & > section {
-    width: 75%;
+    max-width: 75%;
   }
 `;
 
@@ -47,17 +53,30 @@ function App() {
       <ItemsContextProvider>
         <CartContextProvider>
           <Router>
-            <CartButton />
-            <Header />
-            <PositionedContainer>
-              <section>
-                <AboutComponent />
-                <AdministrationMode />
-                <FoodList />
-              </section>
-              <SnacksNotifier />
-              <Footer />
-            </PositionedContainer>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "nowrap",
+                width: "100%",
+                alignItems: "stretch",
+              }}
+            >
+              <Dashboard />
+              <MainContainer>
+                <CartButton />
+                <Header />
+                <PositionedContainer>
+                  <section>
+                    <AboutComponent />
+                    <AdministrationMode />
+                    <FoodList />
+                  </section>
+                  <SnacksNotifier />
+                </PositionedContainer>
+              </MainContainer>
+            </div>
+            <Footer />
           </Router>
         </CartContextProvider>
       </ItemsContextProvider>

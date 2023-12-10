@@ -9,17 +9,7 @@ const FoodList = () => {
   const foodItems = itemsData.map((item) => {
     return (
       <>
-        <FoodItem
-          key={item.id}
-          targetItem={item}
-          // id={item.id}
-          // name={item.name}
-          // desc={item.desc}
-          // price={item.price}
-        />
-        {/* <li>
-          {item.name} - {item.desc} - RM{item.price}
-        </li> */}
+        <FoodItem key={item.id} targetItem={item} />
       </>
     );
   });
