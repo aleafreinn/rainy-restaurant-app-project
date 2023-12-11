@@ -8,6 +8,8 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import InputAdornment from "@mui/material/InputAdornment";
 import PropTypes from "prop-types";
+import LoadingEffect from "../components/LoadingEffect";
+import { createPortal } from "react-dom";
 
 const FormParent = styled.main`
   background-color: #00000044;
@@ -66,6 +68,7 @@ const AddMenuForm = ({ onClose }) => {
   const [imageName, setImageName] = useState("");
   const [throwBlankError, setThrowBlankError] = useState(false);
   const [openInputErrorSnack, setOpenInputErrorSnack] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const inputImageEl = useRef("");
 
   async function submitHandler(e) {
@@ -80,6 +83,7 @@ const AddMenuForm = ({ onClose }) => {
       setThrowBlankError(true);
       setOpenInputErrorSnack(true);
     } else {
+      setShowLoading(true);
       const imagePayload = new FormData();
       imagePayload.append("image", inputImageEl.current.files[0]);
       console.log(imagePayload);
@@ -91,6 +95,7 @@ const AddMenuForm = ({ onClose }) => {
         id: uuid(),
         image: response.data.data.image.url,
       });
+      setShowLoading(false);
     }
   }
 
@@ -204,6 +209,8 @@ const AddMenuForm = ({ onClose }) => {
           Input request error!
         </Alert>
       </Snackbar>
+
+      {showLoading && createPortal(<LoadingEffect />, document.body)}
     </FormParent>
   );
 };
