@@ -18,31 +18,6 @@ import { useItems } from "../store/ItemsContext";
 import EditMenuForm from "./EditMenuForm";
 import DeleteItem from "./DeleteItem";
 
-// const FoodContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   padding: 1rem 2rem;
-//   gap: 0.5rem;
-//   border: 2px solid white;
-//   border-radius: 10px;
-//   & > p {
-//     color: #ffffffcc;
-//     font-size: 30pt;
-//     margin: 0;
-//   }
-//   & > h3 {
-//     margin: 0;
-//   }
-// `;
-
-// const ButtonContainer = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-evenly;
-//   width: 100%;
-// `;
-
 const DescriptionBox = styled(Typography)`
   display: -webkit-box;
   width: 100%;
@@ -54,12 +29,6 @@ const DescriptionBox = styled(Typography)`
 const AddButton = styled(Button)`
   color: #e2c000;
   font-weight: bold;
-
-  /* &:active {
-    & > div#cartIcon {
-      animation: addCart 0.3s ease-in-out;
-    }
-  } */
 
   &:focus {
     & > div#cartIcon {
@@ -108,9 +77,7 @@ const FoodItem = ({ targetItem }) => {
     });
   }
 
-  useEffect(() => {
-    // console.log(cartItems);
-  }, [cartItems]);
+  useEffect(() => {}, [cartItems]);
   return (
     <>
       <Grid item>
@@ -139,7 +106,6 @@ const FoodItem = ({ targetItem }) => {
           <CardActions>
             <AddButton
               size="small"
-              // sx={{ color: "#e2c000", fontWeight: "bold" }}
               onClick={addButtonHandler}
               ref={addButtonEl}
             >

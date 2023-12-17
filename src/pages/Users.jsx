@@ -1,7 +1,7 @@
 const User = () => {
   return (
     <>
-      <div>hello users</div>
+      <div style={{ fontWeight: "bolder" }}>Available Foods to Tabemasu!</div>
     </>
   );
 };

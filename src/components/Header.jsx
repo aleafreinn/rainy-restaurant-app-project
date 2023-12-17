@@ -103,7 +103,6 @@ const FoodNavButton = styled(Button)`
 
 const Header = () => {
   function scrollToSection(id) {
-    // event.preventDefault();
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });

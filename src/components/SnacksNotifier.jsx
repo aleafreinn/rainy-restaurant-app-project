@@ -11,8 +11,6 @@ const SnacksNotifier = () => {
   });
 
   useEffect(() => {
-    // "isEqual" defined true when "itemsNumber" changed to number of items
-    // false when "ItemsNumber" is already the same
     if (itemsData.length > successSnack.itemsNumber)
       setSuccessSnack({ changeType: "add", itemsNumber: itemsData.length });
     else if (itemsData.length < successSnack.itemsNumber) {
